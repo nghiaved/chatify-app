@@ -7,6 +7,7 @@ import 'package:client/screens/lorem_screen.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isLoading = true;
-  final bool _isSignined = false;
 
   @override
   void initState() {
@@ -28,14 +28,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   redirectScreen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final ignoreScreen = prefs.getBool('ignoreScreen');
+    final bool? ignoreScreen = prefs.getBool('ignoreScreen');
+    final String? token = prefs.getString('token');
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     if (ignoreScreen != null && ignoreScreen) {
-      _isSignined
+      (token != null && (JwtDecoder.isExpired(token) == false))
           // ignore: use_build_context_synchronously
-          ? nextScreen(context, const HomeScreen())
+          ? nextScreen(context, HomeScreen(token: token))
           // ignore: use_build_context_synchronously
           : nextScreen(context, const SigninScreen());
     } else {
