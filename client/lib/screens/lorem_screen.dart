@@ -1,4 +1,4 @@
-import 'package:client/constants/app_colors.dart';
+import 'package:client/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoremScreen extends StatelessWidget {
@@ -9,26 +9,10 @@ class LoremScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: AppColors.primaryColor,
-          size: 24,
-        ),
-        centerTitle: true,
-        title: Text(
-          title,
-          style: const TextStyle(
-            color: AppColors.blackColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        elevation: 1,
-        backgroundColor: AppColors.whiteColor,
-      ),
+      appBar: AppBarWidget(text: title),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: const [
               Text(

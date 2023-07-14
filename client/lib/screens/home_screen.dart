@@ -1,7 +1,9 @@
 import 'package:client/constants/app_colors.dart';
+import 'package:client/helpers/helper_function.dart';
 import 'package:client/screens/call_screen.dart';
 import 'package:client/screens/chat_screen.dart';
 import 'package:client/screens/group_screen.dart';
+import 'package:client/screens/setting_screen.dart';
 import 'package:client/screens/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -61,9 +63,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Row(
-                      children: const [
-                        Icon(Icons.search, size: 24),
-                        Icon(Icons.more_vert, size: 24),
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.search, size: 24),
+                          splashRadius: 20,
+                          onPressed: () {
+                            // ignore: avoid_print
+                            print('Search screen');
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.more_vert, size: 24),
+                          splashRadius: 20,
+                          onPressed: () {
+                            nextScreen(
+                              context,
+                              const SettingScreen(),
+                            );
+                          },
+                        ),
                       ],
                     )
                   ],
