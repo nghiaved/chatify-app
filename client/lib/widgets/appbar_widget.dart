@@ -21,67 +21,69 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: appBarHeight,
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.mediumSpacing,
-      ),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: AppColors.greyColor, width: 2),
+    return SafeArea(
+      child: Container(
+        height: appBarHeight,
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.mediumSpacing,
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              IconButton(
-                splashRadius: AppDimensions.splashRadius,
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: AppColors.primaryColor,
-                  size: AppDimensions.iconSize,
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: AppColors.greyColor, width: 2),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  splashRadius: AppDimensions.splashRadius,
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.primaryColor,
+                    size: AppDimensions.iconSize,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              widget.avatar != null
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                        left: AppDimensions.smallSpacing,
-                      ),
-                      child: Image.asset(
-                        widget.avatar!,
-                        width: appBarHeight - AppDimensions.mediumSpacing,
-                        height: appBarHeight - AppDimensions.mediumSpacing,
-                      ),
-                    )
-                  : const SizedBox(),
-              widget.text != null
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                        left: AppDimensions.smallSpacing,
-                      ),
-                      child: Text(
-                        widget.text!,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                widget.avatar != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                          left: AppDimensions.smallSpacing,
                         ),
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-          Row(
-            children: widget.actions != null
-                ? widget.actions!.map((item) {
-                    return item;
-                  }).toList()
-                : [],
-          ),
-        ],
+                        child: Image.asset(
+                          widget.avatar!,
+                          width: appBarHeight - AppDimensions.mediumSpacing,
+                          height: appBarHeight - AppDimensions.mediumSpacing,
+                        ),
+                      )
+                    : const SizedBox(),
+                widget.text != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                          left: AppDimensions.smallSpacing,
+                        ),
+                        child: Text(
+                          widget.text!,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+            Row(
+              children: widget.actions != null
+                  ? widget.actions!.map((item) {
+                      return item;
+                    }).toList()
+                  : [],
+            ),
+          ],
+        ),
       ),
     );
   }

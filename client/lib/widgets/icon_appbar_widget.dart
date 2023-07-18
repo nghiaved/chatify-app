@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 
 final appBarHeight = AppBar().preferredSize.height;
 
-class IconWidget extends StatefulWidget {
-  const IconWidget({super.key, this.func, required this.icon});
+class IconAppBarWidget extends StatefulWidget {
+  const IconAppBarWidget({super.key, this.func, required this.icon});
 
   final Function()? func;
   final IconData icon;
 
   @override
-  State<IconWidget> createState() => _IconWidgetState();
+  State<IconAppBarWidget> createState() => _IconAppBarWidgetState();
 }
 
-class _IconWidgetState extends State<IconWidget> {
+class _IconAppBarWidgetState extends State<IconAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
