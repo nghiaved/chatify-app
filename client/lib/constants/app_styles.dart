@@ -11,14 +11,16 @@ class AppStyles {
         fontWeight: FontWeight.w500,
         fontSize: 16,
       ),
-      prefixIcon: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 10),
-        child: Icon(
-          icon,
-          color: AppColors.blackColor,
-          size: 26,
-        ),
-      ),
+      prefixIcon: icon != null
+          ? Padding(
+              padding: const EdgeInsets.only(left: 20, right: 10),
+              child: Icon(
+                icon,
+                color: AppColors.blackColor,
+                size: 26,
+              ),
+            )
+          : null,
       border: InputBorder.none,
       filled: true,
       fillColor: AppColors.greyColor,

@@ -2,6 +2,7 @@ import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_dimensions.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
+import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/signin_screen.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/dashline_widget.dart';
@@ -30,63 +31,68 @@ class _SettingScreenState extends State<SettingScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Stack(
-                    children: [
-                      Image.asset(
-                        AssetImages.avatar,
-                        width: 80,
-                        height: 80,
-                      ),
-                      Positioned(
-                        bottom: 4,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            color: AppColors.primaryColor,
+              GestureDetector(
+                onTap: () {
+                  nextScreen(context, const ProfileScreen());
+                },
+                child: Row(
+                  children: [
+                    Stack(
+                      children: [
+                        Image.asset(
+                          AssetImages.avatar,
+                          width: 80,
+                          height: 80,
+                        ),
+                        Positioned(
+                          bottom: 4,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: AppColors.primaryColor,
+                            ),
+                            child: const Icon(
+                              Icons.edit,
+                              size: 12,
+                              color: AppColors.whiteColor,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.edit,
-                            size: 12,
-                            color: AppColors.whiteColor,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: AppDimensions.mediumSpacing),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Ali Mustafa',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: AppDimensions.mediumSpacing),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Ali Mustafa',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                        SizedBox(height: AppDimensions.smallSpacing),
+                        Text(
+                          '+92 309-0167993',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: AppDimensions.smallSpacing),
-                      Text(
-                        '+92 309-0167993',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                        SizedBox(height: AppDimensions.smallSpacing),
+                        Text(
+                          'Available',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: AppDimensions.smallSpacing),
-                      Text(
-                        'Available',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const ItemSettingWidget(icon: Icons.person, text: 'Account'),
               const ItemSettingWidget(icon: Icons.mode_comment, text: 'Chats'),
