@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPressed: () {
                             nextScreen(
                               context,
-                              const SettingScreen(),
+                              SettingScreen(userInfo: userInfo),
                             );
                           },
                         ),

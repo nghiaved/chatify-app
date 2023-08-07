@@ -2,6 +2,8 @@ import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_dimensions.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
+import 'package:client/screens/account_screen.dart';
+import 'package:client/screens/help_screen.dart';
 import 'package:client/screens/profile_screen.dart';
 import 'package:client/screens/signin_screen.dart';
 import 'package:client/widgets/appbar_widget.dart';
@@ -11,7 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+  const SettingScreen({super.key, required this.userInfo});
+
+  final Map<String, dynamic> userInfo;
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();
@@ -19,6 +23,11 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +42,7 @@ class _SettingScreenState extends State<SettingScreen> {
             children: [
               GestureDetector(
                 onTap: () {
-                  nextScreen(context, const ProfileScreen());
+                  nextScreen(context, ProfileScreen(userInfo: widget.userInfo));
                 },
                 child: Row(
                   children: [
@@ -65,24 +74,25 @@ class _SettingScreenState extends State<SettingScreen> {
                     const SizedBox(width: AppDimensions.mediumSpacing),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          'Ali Mustafa',
-                          style: TextStyle(
+                          widget.userInfo['name'] ??
+                              getNameInEmail(widget.userInfo['email']),
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
                         ),
-                        SizedBox(height: AppDimensions.smallSpacing),
+                        const SizedBox(height: AppDimensions.smallSpacing),
                         Text(
-                          '+92 309-0167993',
-                          style: TextStyle(
+                          widget.userInfo['email'],
+                          style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
                         ),
-                        SizedBox(height: AppDimensions.smallSpacing),
-                        Text(
+                        const SizedBox(height: AppDimensions.smallSpacing),
+                        const Text(
                           'Available',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -94,7 +104,13 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
               ),
-              const ItemSettingWidget(icon: Icons.person, text: 'Account'),
+              ItemSettingWidget(
+                icon: Icons.person,
+                text: 'Account',
+                func: () {
+                  nextScreen(context, const AccountScreen());
+                },
+              ),
               const ItemSettingWidget(icon: Icons.mode_comment, text: 'Chats'),
               const ItemSettingWidget(
                 icon: Icons.notifications,
@@ -107,7 +123,9 @@ class _SettingScreenState extends State<SettingScreen> {
               ItemSettingWidget(
                 icon: Icons.info,
                 text: 'Help',
-                func: () {},
+                func: () {
+                  nextScreen(context, const HelpScreen());
+                },
               ),
               _isLoading
                   ? Column(

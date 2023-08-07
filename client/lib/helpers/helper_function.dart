@@ -38,43 +38,51 @@ Future<dynamic> showModalBottom(
         margin: const EdgeInsets.symmetric(
           vertical: AppDimensions.largeSpacing,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
-            ),
-            const SizedBox(height: AppDimensions.largeSpacing),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 160,
-                  child: ButtonWidget(
-                    func: () => Navigator.pop(context),
-                    text: no,
-                    isCancel: true,
+              const SizedBox(height: AppDimensions.largeSpacing),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: ButtonWidget(
+                      func: () => Navigator.pop(context),
+                      text: no,
+                      isCancel: true,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: AppDimensions.largeSpacing,
-                ),
-                SizedBox(
-                  width: 160,
-                  child: ButtonWidget(
-                    func: func,
-                    text: yes,
+                  const SizedBox(
+                    width: AppDimensions.largeSpacing,
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(
+                    width: 150,
+                    child: ButtonWidget(
+                      func: func,
+                      text: yes,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     },
   );
+}
+
+String getNameInEmail(String email) {
+  return email.substring(0, email.indexOf('@'));
 }

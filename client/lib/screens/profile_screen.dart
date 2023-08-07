@@ -2,12 +2,15 @@ import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_dimensions.dart';
 import 'package:client/constants/app_styles.dart';
 import 'package:client/helpers/asset_images.dart';
+import 'package:client/helpers/helper_function.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.userInfo});
+
+  final Map<String, dynamic> userInfo;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -110,7 +113,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               buildItemInfo(
                 title: 'Name',
-                content: 'Ali Mustafa',
+                content: widget.userInfo['name'] ??
+                    getNameInEmail(widget.userInfo['email']),
                 isRequired: true,
               ),
               const SizedBox(
@@ -118,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               buildItemInfo(
                 title: 'Email',
-                content: 'nghia@gmail.com',
+                content: widget.userInfo['email'],
                 isRequired: true,
               ),
               const SizedBox(
