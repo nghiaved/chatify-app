@@ -1,9 +1,9 @@
 import 'package:client/constants/app_colors.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
-import 'package:client/screens/home_screen.dart';
-import 'package:client/screens/signin_screen.dart';
-import 'package:client/screens/lorem_screen.dart';
+import 'package:client/screens/home/home_screen.dart';
+import 'package:client/screens/auth/signin_screen.dart';
+import 'package:client/screens/settings/lorem_screen.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

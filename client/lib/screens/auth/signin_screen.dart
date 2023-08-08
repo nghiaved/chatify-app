@@ -3,20 +3,22 @@ import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_styles.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
-import 'package:client/screens/signin_screen.dart';
+import 'package:client/screens/auth/signup_screen.dart';
+import 'package:client/screens/home/home_screen.dart';
 import 'package:client/services/auth_service.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SigninScreen> createState() => _SigninScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SigninScreenState extends State<SigninScreen> {
   final formKeyEmail = GlobalKey<FormState>();
   final formKeyPassword = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -26,11 +28,11 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isLoading = false;
   bool _showPassword = true;
 
-  register() async {
+  login() async {
     if (_nextInput) {
       if (formKeyPassword.currentState!.validate()) {
         setState(() {
-          _isLoading = true;
+          _isLoading = !_isLoading;
         });
 
         await Future.delayed(const Duration(seconds: 1));
@@ -41,32 +43,28 @@ class _SignupScreenState extends State<SignupScreen> {
         };
 
         try {
-          final response = await AuthService.registerUser(reqBody);
+          final response = await AuthService.loginUser(reqBody);
 
           final jsonResponse = jsonDecode(response.body);
           if (jsonResponse['status'] == true) {
-            _emailController.text = '';
-            _passwordController.text = '';
-
-            setState(() {
-              _isLoading = false;
-            });
+            final myToken = jsonResponse['token'];
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('token', myToken);
             // ignore: use_build_context_synchronously
-            showSnackBar(
-                context, AppColors.greenColor, 'Register successfully');
+            nextScreen(context, HomeScreen(token: myToken));
           } else {
             setState(() {
               _isLoading = false;
             });
             // ignore: use_build_context_synchronously
-            showSnackBar(context, AppColors.redColor, 'Register failure');
+            showSnackBar(context, AppColors.redColor, 'Login failure');
           }
         } catch (e) {
           setState(() {
             _isLoading = false;
           });
           // ignore: use_build_context_synchronously
-          showSnackBar(context, AppColors.redColor, 'Register failure');
+          showSnackBar(context, AppColors.redColor, 'Login failure');
         }
       }
     } else {
@@ -95,7 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           color: AppColors.primaryColor,
                         )
                       : const Text(
-                          'Sign up for free',
+                          'Sign in to your Account',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
@@ -244,15 +242,15 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ButtonWidget(
-                      func: register,
-                      text: !_nextInput ? 'Next' : 'Sign up',
+                      func: login,
+                      text: !_nextInput ? 'Next' : 'Sign in',
                     ),
                   ),
                   const SizedBox(height: 40),
                   Text.rich(
                     textAlign: TextAlign.center,
                     TextSpan(
-                      text: "Already have an Account? ",
+                      text: "Did You have an Account? ",
                       style: const TextStyle(
                         color: AppColors.blackColor,
                         fontWeight: FontWeight.w500,
@@ -260,7 +258,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       children: <TextSpan>[
                         TextSpan(
-                          text: "Sign in",
+                          text: "Sign up",
                           style: const TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
@@ -268,7 +266,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              nextScreen(context, const SigninScreen());
+                              nextScreen(context, const SignupScreen());
                             },
                         ),
                       ],

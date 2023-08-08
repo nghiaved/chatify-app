@@ -1,5 +1,6 @@
 import 'package:client/helpers/helper_function.dart';
-import 'package:client/screens/lorem_screen.dart';
+import 'package:client/screens/settings/app_info_screen.dart';
+import 'package:client/screens/settings/lorem_screen.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/dashline_widget.dart';
 import 'package:client/widgets/item_text_show_widget.dart';
@@ -44,7 +45,12 @@ class HelpScreen extends StatelessWidget {
               },
             ),
             const DashlineWidget(margin: EdgeInsets.symmetric(vertical: 10)),
-            const ItemTextShowWidget(text: 'App Info'),
+            ItemTextShowWidget(
+              text: 'App Info',
+              func: () {
+                nextScreen(context, const AppInfoScreen());
+              },
+            ),
           ],
         ),
       ),

@@ -2,10 +2,13 @@ import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_dimensions.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
-import 'package:client/screens/account_screen.dart';
-import 'package:client/screens/help_screen.dart';
-import 'package:client/screens/profile_screen.dart';
-import 'package:client/screens/signin_screen.dart';
+import 'package:client/screens/settings/account_screen.dart';
+import 'package:client/screens/settings/help_screen.dart';
+import 'package:client/screens/settings/profile_screen.dart';
+import 'package:client/screens/auth/signin_screen.dart';
+import 'package:client/screens/settings/security_screen.dart';
+import 'package:client/screens/settings/notification_screen.dart';
+import 'package:client/screens/settings/chat_setting_screen.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/dashline_widget.dart';
 import 'package:client/widgets/item_setting_widget.dart';
@@ -111,14 +114,26 @@ class _SettingScreenState extends State<SettingScreen> {
                   nextScreen(context, const AccountScreen());
                 },
               ),
-              const ItemSettingWidget(icon: Icons.mode_comment, text: 'Chats'),
-              const ItemSettingWidget(
+              ItemSettingWidget(
+                icon: Icons.mode_comment,
+                text: 'Chats',
+                func: () {
+                  nextScreen(context, const ChatSettingScreen());
+                },
+              ),
+              ItemSettingWidget(
                 icon: Icons.notifications,
                 text: 'Notifications',
+                func: () {
+                  nextScreen(context, const NotificationScreen());
+                },
               ),
-              const ItemSettingWidget(
+              ItemSettingWidget(
                 icon: Icons.verified_user,
                 text: 'Security',
+                func: () {
+                  nextScreen(context, const SecurityScreen());
+                },
               ),
               ItemSettingWidget(
                 icon: Icons.info,
