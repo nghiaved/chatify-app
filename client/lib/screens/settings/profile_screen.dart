@@ -3,6 +3,7 @@ import 'package:client/constants/app_dimensions.dart';
 import 'package:client/constants/app_styles.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
+import 'package:client/screens/settings/qr_code_screen.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(text: 'Profile'),
+      appBar: AppBarWidget(
+        text: 'Profile',
+        actions: [
+          IconButton(
+            splashRadius: AppDimensions.splashRadius,
+            icon: const Icon(
+              Icons.share,
+              size: AppDimensions.iconSize,
+              color: AppColors.primaryColor,
+            ),
+            onPressed: () {
+              nextScreen(context, QRCodeScreen(userInfo: widget.userInfo));
+            },
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
