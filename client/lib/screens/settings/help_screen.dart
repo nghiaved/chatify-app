@@ -1,5 +1,6 @@
 import 'package:client/helpers/helper_function.dart';
 import 'package:client/screens/settings/app_info_screen.dart';
+import 'package:client/screens/settings/faq_screen.dart';
 import 'package:client/screens/settings/lorem_screen.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/dashline_widget.dart';
@@ -19,7 +20,12 @@ class HelpScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const ItemTextShowWidget(text: 'FAQ'),
+            ItemTextShowWidget(
+              text: 'FAQ',
+              func: () {
+                nextScreen(context, const FAQScreen());
+              },
+            ),
             const DashlineWidget(margin: EdgeInsets.symmetric(vertical: 10)),
             ItemTextShowWidget(
               text: 'Term & Conditions',
