@@ -11,29 +11,44 @@ class ItemTextSwitchWidget extends StatefulWidget {
 }
 
 class _ItemTextSwitchWidgetState extends State<ItemTextSwitchWidget> {
+  bool isSwitch = false;
+
+  @override
+  void initState() {
+    if (widget.switchValue != null && widget.switchValue == true) {
+      isSwitch = true;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isSwitch = widget.switchValue ?? false;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          widget.text,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isSwitch = !isSwitch;
+        });
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            widget.text,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        CupertinoSwitch(
-          value: isSwitch,
-          onChanged: (value) {
-            setState(() {
-              isSwitch = value;
-            });
-          },
-        ),
-      ],
+          CupertinoSwitch(
+            value: isSwitch,
+            onChanged: (value) {
+              setState(() {
+                isSwitch = value;
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 }
