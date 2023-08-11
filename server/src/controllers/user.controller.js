@@ -40,6 +40,17 @@ const userController = {
             })
             .catch(next)
     },
+
+    handleDelete: async (req, res, next) => {
+        const _id = req.params.id
+        await UserService.deleteUser(_id)
+            .then(user => {
+                res.status(200).json({
+                    status: true, user
+                })
+            })
+            .catch(next)
+    },
 }
 
 module.exports = userController

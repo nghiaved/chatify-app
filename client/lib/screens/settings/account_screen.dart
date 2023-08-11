@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_dimensions.dart';
 import 'package:client/helpers/helper_function.dart';
+import 'package:client/screens/auth/signin_screen.dart';
+import 'package:client/services/auth_service.dart';
 import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/dashline_widget.dart';
 import 'package:client/widgets/item_text_show_widget.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+  const AccountScreen({super.key, required this.id});
+
+  final String id;
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -15,6 +21,15 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   bool _isLoading = false;
+
+  void deleteUser() async {
+    final response = await AuthService.deleteUser(widget.id);
+    final jsonResponse = jsonDecode(response.body);
+    if (jsonResponse['status']) {
+      // ignore: use_build_context_synchronously
+      nextScreen(context, const SigninScreen());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +72,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             _isLoading = true;
                           });
                           await Future.delayed(const Duration(seconds: 1));
-                          setState(() {
-                            _isLoading = false;
-                          });
+                          deleteUser();
                         },
                       );
                     },

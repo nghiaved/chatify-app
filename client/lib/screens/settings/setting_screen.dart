@@ -124,7 +124,12 @@ class _SettingScreenState extends State<SettingScreen> {
                 icon: Icons.person,
                 text: 'Account',
                 func: () {
-                  nextScreen(context, const AccountScreen());
+                  nextScreen(
+                    context,
+                    AccountScreen(
+                      id: widget.userInfo['_id'],
+                    ),
+                  );
                 },
               ),
               ItemSettingWidget(

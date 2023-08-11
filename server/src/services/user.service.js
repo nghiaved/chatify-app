@@ -31,6 +31,11 @@ class UserService {
         )
         return updateUser
     }
+
+    static async deleteUser(_id) {
+        const user = await userModel.findOneAndDelete({ _id })
+        return user
+    }
 }
 
 module.exports = UserService

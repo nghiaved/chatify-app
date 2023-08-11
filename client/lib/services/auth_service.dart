@@ -30,4 +30,13 @@ class AuthService {
     );
     return response;
   }
+
+  static deleteUser(id) async {
+    final uri = '$deleteUrl/$id';
+    final response = await http.delete(
+      Uri.parse(uri),
+      headers: {"Content-Type": "application/json"},
+    );
+    return response;
+  }
 }
