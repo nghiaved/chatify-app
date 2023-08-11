@@ -22,9 +22,20 @@ const userController = {
                     throw new Error(`Password invalid`)
                 }
 
-                let tokenData = { _id: user._id, fullName: user.fullName, email: user.email, image: user.image }
-                const token = await UserService.generateToken(tokenData, 'secretKey', '1h')
+                let tokenData = { _id: user._id, name: user.name, email: user.email, image: user.image }
+                const token = await UserService.generateToken(tokenData, 'secretKey', '1d')
 
+                res.status(200).json({ status: true, token })
+            })
+            .catch(next)
+    },
+
+    handleUpdate: async (req, res, next) => {
+        const _id = req.params.id
+        await UserService.updateUser({ _id, ...req.body })
+            .then(async (user) => {
+                let tokenData = { _id: user._id, name: user.name, email: user.email, image: user.image }
+                const token = await UserService.generateToken(tokenData, 'secretKey', '1d')
                 res.status(200).json({ status: true, token })
             })
             .catch(next)

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/constants/app_colors.dart';
 import 'package:client/constants/app_dimensions.dart';
 import 'package:client/helpers/asset_images.dart';
@@ -51,11 +53,22 @@ class _SettingScreenState extends State<SettingScreen> {
                   children: [
                     Stack(
                       children: [
-                        Image.asset(
-                          AssetImages.avatar,
-                          width: 80,
-                          height: 80,
-                        ),
+                        widget.userInfo['image'] != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(80),
+                                child: Image.file(
+                                  File(widget.userInfo['image']),
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Image.asset(
+                                AssetImages.avatar,
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
                         Positioned(
                           bottom: 4,
                           right: 0,

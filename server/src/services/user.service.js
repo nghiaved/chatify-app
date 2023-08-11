@@ -23,6 +23,14 @@ class UserService {
     static async generateToken(tokenData, secretKey, jwtExpire) {
         return jwt.sign(tokenData, secretKey, { expiresIn: jwtExpire })
     }
+
+    static async updateUser(userInfo) {
+        const updateUser = await userModel.updateOne(
+            { _id: userInfo._id },
+            userInfo,
+        )
+        return updateUser
+    }
 }
 
 module.exports = UserService
