@@ -111,11 +111,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
-                  children: const [
-                    ChatScreen(),
-                    GroupScreen(),
-                    StatusScreen(),
-                    CallScreen(),
+                  children: [
+                    ChatScreen(token: widget.token!),
+                    GroupScreen(token: widget.token!),
+                    const StatusScreen(),
+                    const CallScreen(),
                   ],
                 ),
               ),
