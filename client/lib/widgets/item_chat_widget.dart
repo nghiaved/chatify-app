@@ -57,9 +57,11 @@ class ItemChatWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: AppDimensions.smallSpacing),
-                const Text(
-                  'Latest chat message',
-                  style: TextStyle(
+                Text(
+                  data['latestMessage'] != null
+                      ? data['latestMessage']['content']
+                      : 'No messages yet',
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),

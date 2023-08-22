@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.primaryColor,
         scaffoldBackgroundColor: AppColors.whiteColor,
         fontFamily: 'Quicksand',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primaryColor,
+        ),
       ),
       home: const SplashScreen(),
     );
