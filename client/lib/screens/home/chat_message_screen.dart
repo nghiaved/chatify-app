@@ -8,6 +8,7 @@ import 'package:client/widgets/appbar_widget.dart';
 import 'package:client/widgets/icon_appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class ChatMessageScreen extends StatefulWidget {
   const ChatMessageScreen({
@@ -29,11 +30,26 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
   List messages = [];
   Map<String, dynamic> userInfo = {};
 
+  io.Socket socket = io.io(
+    'http://localhost:7000',
+    io.OptionBuilder().setTransports(['websocket']).build(),
+  );
+
   @override
   void initState() {
     super.initState();
     fetchMessages();
     userInfo = JwtDecoder.decode(widget.token);
+    socket.onConnect((_) {
+      // ignore: avoid_print
+      print('Connected');
+    });
+    socket.emit('join-chat', widget.chat['_id']);
+    socket.on(widget.chat['_id'], (message) {
+      setState(() {
+        messages.add(message);
+      });
+    });
   }
 
   fetchMessages() async {
@@ -50,10 +66,9 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
         "chatId": widget.chat['_id'],
         "content": _contentController.text,
       };
-
-      await MessageService.sendMessage(widget.token, reqBody);
-      _contentController.text = '';
-      fetchMessages();
+      final response = await MessageService.sendMessage(widget.token, reqBody);
+      socket.emit('on-chat', jsonDecode(response.body));
+      _contentController.clear();
     }
   }
 
