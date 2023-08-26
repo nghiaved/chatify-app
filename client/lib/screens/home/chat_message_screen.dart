@@ -60,6 +60,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
       final response = await MessageService.sendMessage(widget.token, reqBody);
       socket.emit('on-chat', jsonDecode(response.body));
       _contentController.clear();
+      socket.emit('all', true);
     }
   }
 

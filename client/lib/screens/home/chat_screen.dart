@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:client/constants/app_colors.dart';
 import 'package:client/helpers/asset_images.dart';
 import 'package:client/helpers/helper_function.dart';
+import 'package:client/helpers/socket_io.dart';
 import 'package:client/screens/home/chat_message_screen.dart';
 import 'package:client/services/chat_service.dart';
 import 'package:client/widgets/button_widget.dart';
@@ -21,12 +22,19 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   List chats = [];
   Map<String, dynamic> userInfo = {};
+  bool fetchAgain = false;
 
   @override
   void initState() {
     super.initState();
     fetchChats();
     userInfo = JwtDecoder.decode(widget.token);
+    socket.emit('join-chat', 'all');
+    socket.on('all', (data) {
+      setState(() {
+        fetchAgain = data;
+      });
+    });
   }
 
   fetchChats() async {
@@ -38,6 +46,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (fetchAgain) {
+      fetchChats();
+      setState(() {
+        fetchAgain = false;
+      });
+    }
+
     return chats.isEmpty
         ? Scaffold(
             body: Center(

@@ -31,6 +31,10 @@ io.on('connection', (socket) => {
     socket.on('on-chat', data => {
         io.emit(data.chat._id, data)
     })
+
+    socket.on('all', data => {
+        io.emit('all', data)
+    })
 })
 
 const port = 7000
