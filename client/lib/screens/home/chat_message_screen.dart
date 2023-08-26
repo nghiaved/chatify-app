@@ -37,9 +37,11 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
     userInfo = JwtDecoder.decode(widget.token);
     socket.emit('join-chat', widget.chat['_id']);
     socket.on(widget.chat['_id'], (message) {
-      setState(() {
-        messages.add(message);
-      });
+      if (mounted) {
+        setState(() {
+          messages.add(message);
+        });
+      }
     });
   }
 

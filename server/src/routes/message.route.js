@@ -8,6 +8,7 @@ const router = express.Router()
 const messageRoute = app => {
     router.get('/:chatId', protect, messageController.allMessages)
     router.post('/', protect, messageController.sendMessage)
+    router.patch('/:messageId', protect, messageController.readMessage)
 
     return app.use('/api/message', router)
 }

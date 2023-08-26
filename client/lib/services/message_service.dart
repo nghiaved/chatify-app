@@ -28,4 +28,17 @@ class MessageService {
     );
     return response;
   }
+
+  static readMessage(token, messageId) async {
+    final uri = '$messageUrl/$messageId';
+    final response = await http.patch(
+      Uri.parse(uri),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    return response;
+  }
 }

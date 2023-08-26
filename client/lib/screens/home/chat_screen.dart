@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:client/constants/app_colors.dart';
 import 'package:client/helpers/asset_images.dart';
-import 'package:client/helpers/helper_function.dart';
 import 'package:client/helpers/socket_io.dart';
-import 'package:client/screens/home/chat_message_screen.dart';
 import 'package:client/services/chat_service.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:client/widgets/item_chat_widget.dart';
@@ -31,9 +29,11 @@ class _ChatScreenState extends State<ChatScreen> {
     userInfo = JwtDecoder.decode(widget.token);
     socket.emit('join-chat', 'all');
     socket.on('all', (data) {
-      setState(() {
-        fetchAgain = data;
-      });
+      if (mounted) {
+        setState(() {
+          fetchAgain = data;
+        });
+      }
     });
   }
 
@@ -94,18 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       userInfo['_id'] == e['users'][1]['_id']
                           ? e['user'] = e['users'][0]
                           : e['user'] = e['users'][1];
-                      return GestureDetector(
-                        onTap: () {
-                          nextScreen(
-                            context,
-                            ChatMessageScreen(
-                              token: widget.token,
-                              chat: e,
-                            ),
-                          );
-                        },
-                        child: ItemChatWidget(data: e),
-                      );
+                      return ItemChatWidget(data: e, token: widget.token);
                     } else {
                       return const SizedBox();
                     }
