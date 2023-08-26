@@ -1,5 +1,6 @@
 import 'package:client/constants/app_colors.dart';
 import 'package:client/helpers/helper_function.dart';
+import 'package:client/helpers/socket_io.dart';
 import 'package:client/screens/home/call_screen.dart';
 import 'package:client/screens/home/chat_screen.dart';
 import 'package:client/screens/home/group_screen.dart';
@@ -7,6 +8,7 @@ import 'package:client/screens/settings/setting_screen.dart';
 import 'package:client/screens/home/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.token});
@@ -39,6 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     userInfo = JwtDecoder.decode(widget.token!);
+    socket.onConnect((_) {
+      // ignore: avoid_print
+      print('Connected');
+    });
   }
 
   @override
