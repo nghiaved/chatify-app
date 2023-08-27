@@ -6,6 +6,7 @@ import 'package:client/helpers/socket_io.dart';
 import 'package:client/screens/home/chat_message_screen.dart';
 import 'package:client/services/message_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ItemChatWidget extends StatefulWidget {
@@ -86,9 +87,10 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
                           fontSize: 16,
                         ),
                       ),
-                      const Text(
-                        '10:43 AM',
-                        style: TextStyle(
+                      Text(
+                        DateFormat('h:mm a').format(DateTime.parse(
+                            widget.data['latestMessage']['updatedAt'])),
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),

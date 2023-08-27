@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:client/constants/app_colors.dart';
 import 'package:client/helpers/asset_images.dart';
+import 'package:client/helpers/socket_io.dart';
 import 'package:client/services/chat_service.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:client/widgets/item_group_widget.dart';
@@ -19,12 +20,21 @@ class GroupScreen extends StatefulWidget {
 class _GroupScreenState extends State<GroupScreen> {
   List chats = [];
   Map<String, dynamic> userInfo = {};
+  bool fetchAgain = false;
 
   @override
   void initState() {
     super.initState();
     fetchChats();
     userInfo = JwtDecoder.decode(widget.token);
+    socket.emit('join-chat', 'all');
+    socket.on('all', (data) {
+      if (mounted) {
+        setState(() {
+          fetchAgain = data;
+        });
+      }
+    });
   }
 
   fetchChats() async {
@@ -36,6 +46,13 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (fetchAgain) {
+      fetchChats();
+      setState(() {
+        fetchAgain = false;
+      });
+    }
+
     return chats.isEmpty
         ? Scaffold(
             body: Center(
@@ -74,7 +91,10 @@ class _GroupScreenState extends State<GroupScreen> {
                 children: chats.map(
                   (e) {
                     if (e['isGroupChat'] == true) {
-                      return ItemGroupWidget(data: e);
+                      return ItemGroupWidget(
+                        data: e,
+                        token: widget.token,
+                      );
                     } else {
                       return const SizedBox();
                     }
