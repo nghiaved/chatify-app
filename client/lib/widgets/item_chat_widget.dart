@@ -38,7 +38,8 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.data['latestMessage']['readBy'].isEmpty &&
+        if (widget.data['latestMessage'] != null &&
+            widget.data['latestMessage']['readBy'].isEmpty &&
             widget.data['latestMessage']['sender']['_id'] != userInfo['_id']) {
           readMessage();
         }
@@ -87,31 +88,40 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
                           fontSize: 16,
                         ),
                       ),
-                      Text(
-                        DateFormat('h:mm a').format(DateTime.parse(
-                            widget.data['latestMessage']['updatedAt'])),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      widget.data['latestMessage'] != null
+                          ? Text(
+                              DateFormat('h:mm a').format(DateTime.parse(
+                                  widget.data['latestMessage']['updatedAt'])),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                   const SizedBox(height: AppDimensions.smallSpacing),
-                  Text(
-                    widget.data['latestMessage'] != null
-                        ? widget.data['latestMessage']['content']
-                        : 'No messages yet',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: widget
-                                  .data['latestMessage']['readBy'].isEmpty &&
-                              widget.data['latestMessage']['sender']['_id'] !=
-                                  userInfo['_id']
-                          ? FontWeight.bold
-                          : FontWeight.w400,
-                    ),
-                  ),
+                  widget.data['latestMessage'] != null
+                      ? Text(
+                          widget.data['latestMessage']['content'],
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: widget.data['latestMessage']['readBy']
+                                        .isEmpty &&
+                                    widget.data['latestMessage']['sender']
+                                            ['_id'] !=
+                                        userInfo['_id']
+                                ? FontWeight.bold
+                                : FontWeight.w400,
+                          ),
+                        )
+                      : const Text(
+                          'No messages yet',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                 ],
               ),
             ),

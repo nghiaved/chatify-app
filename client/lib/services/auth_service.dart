@@ -39,4 +39,17 @@ class AuthService {
     );
     return response;
   }
+
+  static searchUser(text, token) async {
+    final uri = '$userUrl?search=$text';
+    final response = await http.get(
+      Uri.parse(uri),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    return response;
+  }
 }

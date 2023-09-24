@@ -4,6 +4,7 @@ import 'package:client/helpers/socket_io.dart';
 import 'package:client/screens/home/call_screen.dart';
 import 'package:client/screens/home/chat_screen.dart';
 import 'package:client/screens/home/group_screen.dart';
+import 'package:client/screens/home/search_screen.dart';
 import 'package:client/screens/settings/setting_screen.dart';
 import 'package:client/screens/home/status_screen.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: const Icon(Icons.search, size: 24),
                           splashRadius: 20,
                           onPressed: () {
-                            // ignore: avoid_print
-                            print('Search screen');
+                            nextScreen(
+                                context, SearchScreen(token: widget.token!));
                           },
                         ),
                         IconButton(

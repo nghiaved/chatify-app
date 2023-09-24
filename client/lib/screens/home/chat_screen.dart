@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:client/constants/app_colors.dart';
 import 'package:client/helpers/asset_images.dart';
+import 'package:client/helpers/helper_function.dart';
 import 'package:client/helpers/socket_io.dart';
+import 'package:client/screens/home/search_screen.dart';
 import 'package:client/services/chat_service.dart';
 import 'package:client/widgets/button_widget.dart';
 import 'package:client/widgets/item_chat_widget.dart';
@@ -44,6 +46,10 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  nextSearchScreen() {
+    nextScreen(context, SearchScreen(token: widget.token));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (fetchAgain) {
@@ -53,9 +59,9 @@ class _ChatScreenState extends State<ChatScreen> {
       });
     }
 
-    return chats.isEmpty
-        ? Scaffold(
-            body: Center(
+    return Scaffold(
+      body: chats.isEmpty
+          ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -74,19 +80,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  ButtonWidget(func: () {}, text: 'Start Chatting'),
+                  ButtonWidget(func: nextSearchScreen, text: 'Start Chatting'),
                 ],
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {},
-              backgroundColor: AppColors.primaryColor,
-              heroTag: 'chat',
-              child: const Icon(Icons.sms, size: 28),
-            ),
-          )
-        : Scaffold(
-            body: SingleChildScrollView(
+            )
+          : SingleChildScrollView(
               child: Column(
                 children: chats.map(
                   (e) {
@@ -102,6 +100,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 ).toList(),
               ),
             ),
-          );
+      floatingActionButton: FloatingActionButton(
+        onPressed: nextSearchScreen,
+        backgroundColor: AppColors.primaryColor,
+        heroTag: 'chat',
+        child: const Icon(Icons.sms, size: 28),
+      ),
+    );
   }
 }
